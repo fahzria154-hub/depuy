@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Brithday Depuy</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:125vh;
+    background:linear-gradient(to bottom,#d9e4f5,#9bc2fd);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/* TITLE */
+.title{
+    position:absolute;
+    top:100px;
+    font-size:70px;
+    font-weight:700;
+    color:#8da2bd;
+    letter-spacing:8px;
+    text-transform:uppercase;
+    opacity:0.9;
+    filter:blur(0px);
+}
+
+/* CAROUSEL */
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:-200px;
+  gap: 20px;
+  transition: 0.5s;
+}
+
+.card{
+    position:absolute;
+    width:220px;
+    height:300px;
+    border-radius:20px;
+    overflow:hidden;
+    transition:0.6s ease;
+    box-shadow:0 25px 50px rgba(0,0,0,0.2);
+    cursor:pointer;
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* POSITIONS */
+.card.left2{
+    transform:translateX(-380px) scale(0.7);
+    opacity:0.3;
+}
+.card.left{
+    transform:translateX(-220px) scale(0.85);
+    opacity:0.6;
+}
+.card.center{
+    transform:translateX(0) scale(1.1);
+    z-index:5;
+}
+.card.right{
+    transform:translateX(220px) scale(0.85);
+    opacity:0.6;
+}
+.card.right2{
+    transform:translateX(380px) scale(0.7);
+    opacity:0.3;
+}
+
+/* DOTS */
+.dots{
+    position:absolute;
+    bottom:250px;
+}
+
+.dots span{
+    height:10px;
+    width:10px;
+    margin:0 5px;
+    background:#9bb2d0;
+    display:inline-block;
+    border-radius:50%;
+    opacity:0.5;
+    cursor:pointer;
+}
+
+.dots .active{
+    opacity:1;
+    background:#5f7ea6;
+}
+
+/* MESSAGE */
+.message{
+    position:absolute;
+    bottom:20px;
+    text-align:center;
+    max-width:800px;
+    padding:0 20px;
+    font-size:17px;
+    color:#444;
+    line-height:1.6;
+}
+
+/* BUTTON */
+.music-btn{
+    position:absolute;
+    top:80px;
+    right:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:30px;
+    background:#5f7ea6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+.music-btn:hover{
+    background:#3f5f86;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .title{
+        font-size:32px;
+        top:40px;
+        letter-spacing:4px;
+    }
+
+    .carousel{
+        width:100%;
+        height:260px;
+    }
+
+    .card{
+        width:150px;
+        height:220px;
+    }
+
+    /* posisi tetap proporsional */
+    .card.left2{
+        transform:translateX(-240px) scale(0.7);
+    }
+
+    .card.left{
+        transform:translateX(-150px) scale(0.85);
+    }
+
+    .card.center{
+        transform:translateX(0) scale(1);
+    }
+
+    .card.right{
+        transform:translateX(150px) scale(0.85);
+    }
+
+    .card.right2{
+        transform:translateX(240px) scale(0.7);
+    }
+
+    .message{
+        font-size:14px;
+        bottom:50px;
+        padding:0 15px;
+    }
+
+    .music-btn{
+        font-size:13px;
+        padding:8px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1 class="title">Happy Brithday Depuy</h1>
+
+<button class="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
+
+<div class="carousel">
+    <div class="card"><img src="foto/depuy1.jpeg"></div>
+    <div class="card"><img src="foto/depuy2.jpeg"></div>
+    <div class="card"><img src="foto/depuy3.jpeg"></div>
+    <div class="card"><img src="foto/depuy4.jpeg"></div>
+    <div class="card"><img src="foto/depuy5.jpeg"></div>
+</div>
+
+<div class="dots"></div>
+
+<div class="message">
+    🎉 Selamat Ulang Tahun 🎂 <br><br>
+    happy birthday hari ini depuy ulang tahun selamat bertambah 
+    usia makin sabar,kuat dan doa terbaik untuk depuy semoga diumurr 
+    sekarang semestaa berpihak ya samaa depuy semoga bisa dapetin 
+    hal yang selama ini diperjuangkan,semoga bahagia dan semoga 
+    itu selamanya best wishes for special people💙✨
+</div>
+
+<audio id="bgMusic" src="bgMusic/music1.mp3" loop></audio>
+
+<script>
+const cards = document.querySelectorAll(".card");
+const dotsContainer = document.querySelector(".dots");
+let current = 0;
+
+/* RESET CLASS */
+function resetClasses(){
+    cards.forEach(card=>{
+        card.classList.remove("left","left2","center","right","right2");
+    });
+}
+
+/* UPDATE POSISI */
+function updateCarousel(){
+    resetClasses();
+
+    cards.forEach((card,i)=>{
+        let offset = i - current;
+
+        if(offset === 0){
+            card.classList.add("center");
+        } 
+        else if(offset === -1 || offset === cards.length-1){
+            card.classList.add("left");
+        }
+        else if(offset === 1 || offset === -(cards.length-1)){
+            card.classList.add("right");
+        }
+        else if(offset === -2 || offset === cards.length-2){
+            card.classList.add("left2");
+        }
+        else if(offset === 2 || offset === -(cards.length-2)){
+            card.classList.add("right2");
+        }
+        else{
+            card.style.opacity = "0";
+        }
+    });
+
+    updateDots();
+}
+
+/* DOTS */
+function createDots(){
+    cards.forEach((_,i)=>{
+        let dot = document.createElement("span");
+        dot.addEventListener("click",()=>{
+            current = i;
+            updateCarousel();
+        });
+        dotsContainer.appendChild(dot);
+    });
+}
+
+function updateDots(){
+    document.querySelectorAll(".dots span").forEach((dot,i)=>{
+        dot.classList.toggle("active", i === current);
+    });
+}
+
+createDots();
+updateCarousel();
+
+/* AUTO SLIDE */
+setInterval(()=>{
+    current = (current + 1) % cards.length;
+    updateCarousel();
+},3000);
+
+/* MUSIC */
+let music = document.getElementById("bgMusic");
+let playing = false;
+
+function toggleMusic(){
+    if(!playing){
+        music.play();
+        playing = true;
+    }else{
+        music.pause();
+        playing = false;
+    }
+}
+</script>
+
+</body>
+</html>
